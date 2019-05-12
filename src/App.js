@@ -10,6 +10,7 @@ function App() {
 }
 
 class Home extends React.Component {
+  BASE_URL = 'https://stacker-backend.herokuapp.com/api/v1'
   constructor() {
     super();
     this.state = {
@@ -23,7 +24,7 @@ class Home extends React.Component {
 
   changeCurrentPage = numPage => {
     this.setState({ currentPage: numPage });
-    fetch(`https://stacker-backend.herokuapp.com/api/v1/questions?order=desc&sort=activity&site=stackoverflow&page=${numPage}&tagged=${this.state.currentTag}`)
+    fetch(`${this.BASE_URL}/questions?order=desc&sort=activity&site=stackoverflow&page=${numPage}&tagged=${this.state.currentTag}`)
     .then((response) => {
       if (!response.ok) { throw response };
       response.json().then((resolvedJson) => this.setState({questions: resolvedJson.questions.items}) );
@@ -33,7 +34,7 @@ class Home extends React.Component {
 
   handleTagClick = tag => {
     this.setState({currentTag: tag})
-    fetch(`https://stacker-backend.herokuapp.com/api/v1/questions?order=desc&sort=activity&site=stackoverflow&tagged=${tag}`)
+    fetch(`${this.BASE_URL}/questions?order=desc&sort=activity&site=stackoverflow&tagged=${tag}`)
     .then((response) => {
       if (!response.ok) { throw response };
       response.json().then((resolvedJson) => this.setState({questions: resolvedJson.questions.items}) )
@@ -42,7 +43,7 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    fetch('https://stacker-backend.herokuapp.com/api/v1/questions?order=desc&sort=activity&site=stackoverflow')
+    fetch(`${this.BASE_URL}/questions?order=desc&sort=activity&site=stackoverflow`)
     .then((response) => {
       if (!response.ok) { throw response };
       response.json().then((resolvedJson) => this.setState({questions: resolvedJson.questions.items}) )
